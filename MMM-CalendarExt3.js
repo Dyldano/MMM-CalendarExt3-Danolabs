@@ -154,7 +154,18 @@ Module.register("MMM-CalendarExt3", {
     return options
   },
 
-  start() {
+
+  start () {
+    this.currentMonth = moment(); // Initialize with the current date
+      addKeyListeners: function () {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        this.changeMonth(-1); // Move to the previous month
+      } else if (event.key === "ArrowRight") {
+        this.changeMonth(1); // Move to the next month
+      }
+    });
+  },
     this.activeConfig = this.regularizeConfig({ ...this.config })
     this.originalConfig = { ...this.activeConfig }
 
@@ -386,6 +397,11 @@ Module.register("MMM-CalendarExt3", {
       replyCurrentConfig(payload)
     }
   },
+    changeMonth: function (delta) {
+    this.currentMonth.add(delta, "months");
+    this.updateDom(); // Re-render the module to reflect the new month
+  },
+
 
   getDom() {
     let dom = document.createElement("div")
@@ -397,7 +413,17 @@ Module.register("MMM-CalendarExt3", {
       return dom
     }
     dom = this.draw(dom, this.activeConfig)
-
+    
+// Create and append the header displaying the current month and year
+    let header = document.createElement("div");
+    header.innerHTML = this.currentMonth.format("MMMM YYYY");
+    wrapper.appendChild(header);
+    
+    // Fetch and render the calendar data for the current month
+    let calendarData = this.getCalendarDataForMonth(this.currentMonth);
+    let calendarElement = this.renderCalendar(calendarData);
+    wrapper.appendChild(calendarElement);
+    
     if (this.refreshTimer) {
       clearTimeout(this.refreshTimer)
       this.refreshTimer = null

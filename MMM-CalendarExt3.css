@@ -10,12 +10,13 @@ selector-pseudo-class-no-unknown, keyframes-name-pattern,
   --cellbgcolor: rgb(0 0 0 / 20%);
   --cellheaderheight: 25px;
   --cellfooterheight: 2px;
-  --defaultcolor: #fff;
-  --eventheight: calc(var(--fontsize) + 4px);
+  --defaultcolor: #333;
+  --eventheight: 35px);
+  --totalheight: calc(var(--eventheight) * var(--maxeventlines));
   --displayEndTime: none;
   --displayWeatherTemp: none;
 
-  font-size: var(--fontsize);
+  font-size: 20px;
   color: var(--defaultcolor);
   line-height: calc(var(--eventheight));
 }
@@ -605,4 +606,21 @@ selector-pseudo-class-no-unknown, keyframes-name-pattern,
 
 #CX3_POPOVER .criteriaItem.calendar .name::before {
   content: "CALENDAR";
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.nav-arrow {
+    cursor: pointer;
+    font-size: 24px;
+    user-select: none;
+}
+
+.nav-arrow:hover {
+    color: #aaa;
 }
